@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 
-import { ColorIcon, ArrowIcon } from "./components";
+import { ColorIcon, Dropdown } from "./components";
 
 export interface ColorPickerProps {
   /**
@@ -37,34 +37,17 @@ const Label = styled.span`
   color: gray;
   font-weight: bold;
 `;
-const Button = styled.button`
-  font-size: 100%;
-  font-family: inherit;
-  border: 0;
-  padding: 0;
-  background: transparent;
-  width: 50px;
-  height: 100%;
-  border-left: 1px solid lightgray;
-`;
 
 const ColorPicker = ({ value, onChange, colors }: ColorPickerProps) => {
-  const [isOpenSelect, setOpenSelect] = useState(false);
-  const [isOpenRange, setOpenRange] = useState(false);
-  const onClickSelect = () => setOpenSelect(true);
-  const onClickRange = () => setOpenRange(true);
+  const renderCustomIcon = () => <ColorIcon color={value} />;
 
   return (
     <Wrapper>
       <Label>{value}</Label>
 
-      <Button onClick={onClickRange}>
-        <ColorIcon color={value} />
-      </Button>
+      <Dropdown renderCustomIcon={renderCustomIcon}>test</Dropdown>
 
-      <Button onClick={onClickSelect}>
-        <ArrowIcon />
-      </Button>
+      <Dropdown>test</Dropdown>
     </Wrapper>
   );
 };
