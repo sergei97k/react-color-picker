@@ -1,2 +1,2 @@
-export { ColorRange } from "./ColorRange";
-export { ColorSelect } from "./ColorSelect";
+export { ColorIcon } from "./ColorIcon";
+export { ArrowIcon } from "./ArrowIcon";
