@@ -13,8 +13,21 @@ interface Popover {
 
 const PopoverStyled = styled.div`
   position: absolute;
-  width: 200px;
-  transform: translate(-100px, -100%);
+  min-width: 150px;
+  min-height: 40px;
+  transform: translate(-5px, 60px);
+  background-color: white;
+  box-shadow: 0px 1px 10px 2px rgba(0, 0, 0, 0.3);
+
+  &:before {
+    content: "";
+    position: absolute;
+    top: -16px;
+    left: 0;
+    z-index: 1;
+    border: 8px solid transparent;
+    border-bottom-color: #fff;
+  }
 `;
 
 const Popover = ({ coords, children }: Popover) => {
