@@ -10,6 +10,7 @@ interface Popover {
     left?: number;
   };
   arrowPosition?: "left" | "center" | "right" | number;
+  innerRef?: React.RefObject<HTMLDivElement>;
 }
 
 // @ts-ignore next-line
@@ -46,10 +47,11 @@ const PopoverStyled = styled.div`
   }
 `;
 
-const Popover = ({ coords, children, arrowPosition }: Popover) => {
+const Popover = ({ coords, children, arrowPosition, innerRef }: Popover) => {
   const props = {
     style: coords,
     arrowPosition,
+    ref: innerRef,
   };
 
   return (

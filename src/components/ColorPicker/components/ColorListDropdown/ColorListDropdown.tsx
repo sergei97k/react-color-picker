@@ -1,4 +1,4 @@
-import React, { Fragment, MouseEvent, useState } from "react";
+import React, { Fragment, MouseEvent, useState, useRef } from "react";
 import styled from "styled-components";
 
 import { ArrowIcon } from "../ArrowIcon";
@@ -7,6 +7,7 @@ import { ColorIcon } from "../ColorIcon";
 import { IconButton } from "../IconButton";
 
 import { getElemCoords } from "../../../../helpers/coords";
+import { useOutsideAlerter } from "../../../../hooks/useOutsideAlerter";
 
 interface ColorListDropdownProps {
   onChange: (value: string) => void;
@@ -45,6 +46,9 @@ const ListItem = styled.li`
 const ColorListDropdown = ({ colors, onChange }: ColorListDropdownProps) => {
   const [isOpen, setOpen] = useState(false);
   const [coords, setCoords] = useState({});
+
+  const wrapperRef = useRef(null);
+  useOutsideAlerter(wrapperRef, () => setOpen(false));
 
   const renderColorsList = () => {
     if (!colors.length) return null;
@@ -91,7 +95,7 @@ const ColorListDropdown = ({ colors, onChange }: ColorListDropdownProps) => {
       </IconButton>
 
       {isOpen && (
-        <Popover coords={coords} arrowPosition="right">
+        <Popover coords={coords} arrowPosition="right" innerRef={wrapperRef}>
           {renderColorsList()}
         </Popover>
       )}

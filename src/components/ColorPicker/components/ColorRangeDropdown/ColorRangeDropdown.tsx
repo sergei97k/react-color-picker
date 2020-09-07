@@ -1,4 +1,10 @@
-import React, { ChangeEvent, Fragment, MouseEvent, useState } from "react";
+import React, {
+  ChangeEvent,
+  Fragment,
+  MouseEvent,
+  useState,
+  useRef,
+} from "react";
 import styled from "styled-components";
 
 import { IconButton } from "../IconButton";
@@ -7,6 +13,7 @@ import { Popover } from "../Popover";
 
 import { getElemCoords } from "../../../../helpers/coords";
 import { hexToRgb, rgbToHex } from "../../../../helpers/convertColors";
+import { useOutsideAlerter } from "../../../../hooks/useOutsideAlerter";
 
 interface ColorRangeDropdownProps {
   value: string;
@@ -59,6 +66,14 @@ const ColorRangeDropdown = ({ value, onChange }: ColorRangeDropdownProps) => {
   const [coords, setCoords] = useState({ left: 0, top: 0 });
   const [localColor, setLocalColor] = useState("");
   const color = localColor || value;
+
+  const onClose = () => {
+    setLocalColor("");
+    setOpen(false);
+  };
+
+  const wrapperRef = useRef(null);
+  useOutsideAlerter(wrapperRef, onClose);
 
   const renderRangeList = () => {
     const [r, g, b] = hexToRgb(color);
@@ -141,11 +156,6 @@ const ColorRangeDropdown = ({ value, onChange }: ColorRangeDropdownProps) => {
     }
   };
 
-  const onClose = () => {
-    setLocalColor("");
-    setOpen(false);
-  };
-
   return (
     <Fragment>
       <IconButton onClick={onClick}>
@@ -153,7 +163,11 @@ const ColorRangeDropdown = ({ value, onChange }: ColorRangeDropdownProps) => {
       </IconButton>
 
       {isOpen && (
-        <Popover coords={coords} arrowPosition={coords.left - 32}>
+        <Popover
+          coords={coords}
+          arrowPosition={coords.left - 32}
+          innerRef={wrapperRef}
+        >
           {renderRangeList()}
         </Popover>
       )}
