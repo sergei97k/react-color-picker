@@ -18,6 +18,7 @@ const Button = styled.button`
   width: 50px;
   height: 100%;
   border-left: 1px solid lightgray;
+  cursor: pointer;
 `;
 
 const Dropdown = ({ children, renderCustomIcon }: DropdownProps) => {
@@ -25,13 +26,23 @@ const Dropdown = ({ children, renderCustomIcon }: DropdownProps) => {
   const [coords, setCoords] = useState({});
 
   const onClick = (e: MouseEvent<HTMLButtonElement>): void => {
-    const node = e.target as HTMLElement;
-    const rect = node.getBoundingClientRect();
-    setCoords({
-      left: rect.x + rect.width / 2,
-      top: rect.y + window.scrollY,
-    });
-    setOpen(true);
+    if (isOpen) {
+      setOpen(false);
+    } else {
+      const node = e.target as HTMLElement;
+      const parentNode = node.parentNode as HTMLInputElement;
+      // If click happened on icon DOM element - it should get the rect from parent button
+      const rect =
+        parentNode && parentNode.type === "submit"
+          ? parentNode.getBoundingClientRect()
+          : node.getBoundingClientRect();
+
+      setCoords({
+        left: rect.x + rect.width / 2,
+        top: rect.y + window.scrollY,
+      });
+      setOpen(true);
+    }
   };
 
   return (
