@@ -1,2 +1,1 @@
-export { ColorIcon } from "./ColorIcon";
-export { Dropdown } from "./Dropdown";
+export { ColorListDropdown } from "./ColorListDropdown";

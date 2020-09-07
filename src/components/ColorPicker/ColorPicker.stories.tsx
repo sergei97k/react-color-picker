@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Story, Meta } from "@storybook/react/types-6-0";
 
 import ColorPicker, { ColorPickerProps } from "./ColorPicker";
@@ -8,7 +8,10 @@ export default {
   component: ColorPicker,
 } as Meta;
 
-const Template: Story<ColorPickerProps> = (args) => <ColorPicker {...args} />;
+const Template: Story<ColorPickerProps> = (args) => {
+  const [value, onChange] = useState(args.value);
+  return <ColorPicker {...args} value={value} onChange={onChange} />;
+};
 
 export const Example = Template.bind({});
 Example.args = {

@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import { ColorIcon, Dropdown } from "./components";
+import { ColorListDropdown } from "./components";
 
 export interface ColorPickerProps {
   /**
@@ -11,7 +11,7 @@ export interface ColorPickerProps {
   /**
    * Change handler
    */
-  onChange: () => void;
+  onChange: (value: string) => void;
   /**
    * Array of predefined colors
    */
@@ -39,15 +39,11 @@ const Label = styled.span`
 `;
 
 const ColorPicker = ({ value, onChange, colors }: ColorPickerProps) => {
-  const renderCustomIcon = () => <ColorIcon color={value} />;
-
   return (
     <Wrapper>
       <Label>{value}</Label>
 
-      <Dropdown renderCustomIcon={renderCustomIcon}>test</Dropdown>
-
-      <Dropdown>test</Dropdown>
+      <ColorListDropdown colors={colors} onChange={onChange} />
     </Wrapper>
   );
 };
