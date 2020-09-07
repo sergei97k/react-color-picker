@@ -1,4 +1,12 @@
-export const rgbToHex = (r: number, g: number, b: number): string =>
+export const rgbToHex = ({
+  r,
+  g,
+  b,
+}: {
+  r: number;
+  g: number;
+  b: number;
+}): string =>
   "#" +
   [r, g, b]
     .map((x) => {

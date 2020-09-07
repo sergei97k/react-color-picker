@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import { ColorListDropdown } from "./components";
+import { ColorListDropdown, ColorRangeDropdown } from "./components";
 
 export interface ColorPickerProps {
   /**
@@ -42,7 +42,7 @@ const ColorPicker = ({ value, onChange, colors }: ColorPickerProps) => {
   return (
     <Wrapper>
       <Label>{value}</Label>
-
+      <ColorRangeDropdown value={value} onChange={onChange} />
       <ColorListDropdown colors={colors} onChange={onChange} />
     </Wrapper>
   );

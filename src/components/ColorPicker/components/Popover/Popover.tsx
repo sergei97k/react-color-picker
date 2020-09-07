@@ -6,10 +6,25 @@ import { Portal } from "../Portal";
 interface Popover {
   children: React.ReactNode;
   coords: {
-    top?: string;
-    left?: string;
+    top?: number;
+    left?: number;
   };
+  arrowPosition?: "left" | "center" | "right" | number;
 }
+
+// @ts-ignore next-line
+const handleArrowPosition = ({ arrowPosition }) => {
+  switch (arrowPosition) {
+    case "left":
+      return "left: 15px";
+    case "right":
+      return "right: 15px";
+    case "center":
+      return "left: 50%; translate: transformX(-50%);";
+    default:
+      return `left: ${arrowPosition}px`;
+  }
+};
 
 const PopoverStyled = styled.div`
   position: absolute;
@@ -23,17 +38,23 @@ const PopoverStyled = styled.div`
     content: "";
     position: absolute;
     top: -16px;
-    right: 15px;
+    // @ts-ignore next-line
+    ${(props) => handleArrowPosition(props)};
     z-index: 1;
     border: 8px solid transparent;
     border-bottom-color: #fff;
   }
 `;
 
-const Popover = ({ coords, children }: Popover) => {
+const Popover = ({ coords, children, arrowPosition }: Popover) => {
+  const props = {
+    style: coords,
+    arrowPosition,
+  };
+
   return (
     <Portal>
-      <PopoverStyled style={coords}>{children}</PopoverStyled>
+      <PopoverStyled {...props}>{children}</PopoverStyled>
     </Portal>
   );
 };

@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { ArrowIcon } from "../ArrowIcon";
 import { Popover } from "../Popover";
 import { ColorIcon } from "../ColorIcon";
+import { IconButton } from "../IconButton";
 
 import { getElemCoords } from "../../../../helpers/coords";
 
@@ -15,17 +16,6 @@ interface ColorListDropdownProps {
   }[];
 }
 
-const Button = styled.button`
-  font-size: 100%;
-  font-family: inherit;
-  border: 0;
-  padding: 0;
-  background: transparent;
-  width: 50px;
-  height: 100%;
-  border-left: 1px solid lightgray;
-  cursor: pointer;
-`;
 const List = styled.ul`
   list-style-type: none;
   margin: 0;
@@ -96,11 +86,15 @@ const ColorListDropdown = ({ colors, onChange }: ColorListDropdownProps) => {
 
   return (
     <Fragment>
-      <Button onClick={onClick}>
+      <IconButton onClick={onClick}>
         <ArrowIcon />
-      </Button>
+      </IconButton>
 
-      {isOpen && <Popover coords={coords}>{renderColorsList()}</Popover>}
+      {isOpen && (
+        <Popover coords={coords} arrowPosition="right">
+          {renderColorsList()}
+        </Popover>
+      )}
     </Fragment>
   );
 };
