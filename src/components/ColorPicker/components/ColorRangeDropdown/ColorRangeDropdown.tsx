@@ -103,7 +103,7 @@ const ColorRangeDropdown = ({ value, onChange }: ColorRangeDropdownProps) => {
     ];
 
     const onClickOk = () => {
-      onChange(localColor);
+      onChange(color);
       onClose();
     };
 
