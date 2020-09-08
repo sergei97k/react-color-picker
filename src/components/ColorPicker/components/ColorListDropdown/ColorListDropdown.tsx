@@ -1,4 +1,10 @@
-import React, { Fragment, MouseEvent, useState, useRef } from "react";
+import React, {
+  Fragment,
+  MouseEvent,
+  useState,
+  useRef,
+  KeyboardEvent,
+} from "react";
 import styled from "styled-components";
 
 import { ArrowIcon } from "../ArrowIcon";
@@ -43,6 +49,8 @@ const ListItem = styled.li`
   }
 `;
 
+const ENTER_KEY_CODE = 13;
+
 const ColorListDropdown = ({ colors, onChange }: ColorListDropdownProps) => {
   const [isOpen, setOpen] = useState(false);
   const [coords, setCoords] = useState({});
@@ -54,15 +62,28 @@ const ColorListDropdown = ({ colors, onChange }: ColorListDropdownProps) => {
     if (!colors.length) return null;
 
     return (
-      <List>
+      <List tabIndex={-1} role="listbox">
         {colors.map(({ name, value: colorValue }) => {
           const onClickListItem = () => {
             onChange(colorValue);
             setOpen(false);
           };
+          const onKeyDownListItem = ({
+            keyCode,
+          }: KeyboardEvent<HTMLElement>) => {
+            if (keyCode === ENTER_KEY_CODE) {
+              onClickListItem();
+            }
+          };
 
           return (
-            <ListItem key={colorValue} onClick={onClickListItem}>
+            <ListItem
+              key={colorValue}
+              onClick={onClickListItem}
+              onKeyDown={onKeyDownListItem}
+              role="option"
+              tabIndex={0}
+            >
               <span>{name}</span>
               <ColorIcon color={colorValue} />
             </ListItem>
