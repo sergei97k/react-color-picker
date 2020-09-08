@@ -61,11 +61,44 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
+const DEFAULT_RANGE_SETTINGS = {
+  min: 0,
+  max: 255,
+};
+
+const getColorsArray = (color: string) => {
+  const [r, g, b] = hexToRgb(color);
+  return {
+    inputs: [
+      {
+        ...DEFAULT_RANGE_SETTINGS,
+        name: "r",
+        value: r,
+        color: "red",
+      },
+      {
+        ...DEFAULT_RANGE_SETTINGS,
+        name: "g",
+        value: g,
+        color: "green",
+      },
+      {
+        ...DEFAULT_RANGE_SETTINGS,
+        name: "b",
+        value: b,
+        color: "blue",
+      },
+    ],
+    colors: { r, g, b },
+  };
+};
+
 const ColorRangeDropdown = ({ value, onChange }: ColorRangeDropdownProps) => {
   const [isOpen, setOpen] = useState(false);
   const [coords, setCoords] = useState({ left: 0, top: 0 });
   const [localColor, setLocalColor] = useState("");
   const color = localColor || value;
+  const arrowPosition = coords.left - 32;
 
   const onClose = () => {
     setLocalColor("");
@@ -76,31 +109,7 @@ const ColorRangeDropdown = ({ value, onChange }: ColorRangeDropdownProps) => {
   useOutsideAlerter(wrapperRef, onClose);
 
   const renderRangeList = () => {
-    const [r, g, b] = hexToRgb(color);
-    const defaultProps = {
-      min: 0,
-      max: 255,
-    };
-    const inputs = [
-      {
-        ...defaultProps,
-        name: "r",
-        value: r,
-        color: "red",
-      },
-      {
-        ...defaultProps,
-        name: "g",
-        value: g,
-        color: "green",
-      },
-      {
-        ...defaultProps,
-        name: "b",
-        value: b,
-        color: "blue",
-      },
-    ];
+    const { inputs, colors } = getColorsArray(color);
 
     const onClickOk = () => {
       onChange(color);
@@ -113,9 +122,7 @@ const ColorRangeDropdown = ({ value, onChange }: ColorRangeDropdownProps) => {
           const onChangeRange = (e: ChangeEvent<HTMLInputElement>) => {
             const { name, value: inputValue } = e.target;
             const newColor = rgbToHex({
-              r,
-              g,
-              b,
+              ...colors,
               [name]: Number(inputValue),
             });
             setLocalColor(newColor);
@@ -165,7 +172,7 @@ const ColorRangeDropdown = ({ value, onChange }: ColorRangeDropdownProps) => {
       {isOpen && (
         <Popover
           coords={coords}
-          arrowPosition={coords.left - 32}
+          arrowPosition={arrowPosition}
           innerRef={wrapperRef}
         >
           {renderRangeList()}
