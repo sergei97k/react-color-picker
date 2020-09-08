@@ -1,8 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 
-import { Portal } from "../Portal";
-
 interface Popover {
   children: React.ReactNode;
   coords: {
@@ -54,11 +52,7 @@ const Popover = ({ coords, children, arrowPosition, innerRef }: Popover) => {
     ref: innerRef,
   };
 
-  return (
-    <Portal>
-      <PopoverStyled {...props}>{children}</PopoverStyled>
-    </Portal>
-  );
+  return <PopoverStyled {...props}>{children}</PopoverStyled>;
 };
 
 export default Popover;
